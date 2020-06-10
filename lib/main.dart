@@ -16,10 +16,11 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       builder: (ctx) => Recipes(),
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Recipe App',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
+          primarySwatch: Colors.blue, 
+           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         initialRoute: '/',
         routes: {
