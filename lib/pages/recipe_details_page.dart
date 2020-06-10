@@ -4,8 +4,9 @@ import 'package:recipe/widget/custom_app_bar.dart';
 import 'package:recipe/widget/margin.dart';
 import 'package:recipe/widget/recipe_steps_number.dart';
 import 'package:recipe/widget/yellow_underline.dart';
+import 'dart:math' as math;
 
-// This should come from an API
+// This should come from an API or be passed from the previous route
 const Map<String, dynamic> details = {
   "recipeName": "Jollof Rice",
   "picture": "",
@@ -23,19 +24,19 @@ const Map<String, dynamic> details = {
     "Tomatoes",
     "Salt",
     "Rice",
-    "Tomatoes",
-    "Tatashe",
+    "White pepper",
+    "Ginger",
   ],
   "likes": "1546",
   "readingTime": "1hr 20 Min",
   "steps": {
     "1":
         "Blend the tomatoes, onions and tatashe to a smooth paste. Heat it in a pot to reduce the volume of water, do this till you dots on the pepper",
-        "2":
+    "2":
         "Blend the tomatoes, onions and tatashe to a smooth paste. Heat it in a pot to reduce the volume of water, do this till you dots on the pepper",
-        "3":
+    "3":
         "Blend the tomatoes, onions and tatashe to a smooth paste. Heat it in a pot to reduce the volume of water, do this till you dots on the pepper",
-        "4":
+    "4":
         "Blend the tomatoes, onions and tatashe to a smooth paste. Heat it in a pot to reduce the volume of water, do this till you dots on the pepper"
   },
   "stepsCount": 1
@@ -43,13 +44,9 @@ const Map<String, dynamic> details = {
 
 List<List<dynamic>> splitList(List<dynamic> list) {
   List<List<dynamic>> result = [];
-  for (int i = 0; i < list.length; i = i + 2) {
-    if (i + 1 <= list.length - 1) {
-      result.add([list[i], list[i + 1]]);
-    } else {
-      result.add([list[i]]);
-    }
-  }
+  int halfLength = (list.length * 0.5).floor();
+  result.add([...list.take(halfLength).toList()]);
+  result.add([...list.skip(list.length - halfLength)]);
   return result;
 }
 
@@ -59,6 +56,8 @@ class RecipeDetailsPage extends StatelessWidget {
     print(splitList(details["ingredients"]));
     return Scaffold(
       backgroundColor: Colors.black,
+      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomPadding: true,
       appBar: CustomAppBar(
           title: details["recipeName"] as String,
           actions: <Widget>[
@@ -137,11 +136,10 @@ class RecipeDetailsPage extends StatelessWidget {
                           height: 100,
                           width: getScreenWidth(context),
                           decoration: BoxDecoration(
-                             gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [Colors.transparent, Colors.black]
-                            ), 
+                            gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [Colors.transparent, Colors.black]),
                           ),
                         ),
                       )
@@ -200,46 +198,41 @@ class RecipeDetailsPage extends StatelessWidget {
                     ],
                   ),
                   YMargin(20),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: splitList(details["ingredients"] as List)
-                        .map<Widget>((e) => Container(
-                              margin: const EdgeInsets.only(bottom: 10),
-                              width: double.infinity,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: e
-                                    .map<Widget>((child) => Expanded(
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Container(
-                                                height: 5,
-                                                width: 5,
-                                                margin: const EdgeInsets.only(
-                                                    right: 10),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                              ),
-                                              Text(
-                                                child.toString(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText1
-                                                    .copyWith(),
-                                              ),
-                                            ],
-                                          ),
-                                        ))
-                                    .toList(),
-                              ),
-                            ))
-                        .toList(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children:
+                        splitList(details["ingredients"] as List).map((e) {
+                      return (Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: e
+                            .map((child) => Container(
+                                  margin:
+                                      EdgeInsets.only(bottom: 15),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        height: 5,
+                                        width: 5,
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                      ),
+                                      Text(
+                                        child.toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText1
+                                            .copyWith(),
+                                      ),
+                                    ],
+                                  ),
+                                ))
+                            .toList(),
+                      ));
+                    }).toList(),
                   ),
                   YMargin(40),
                   Row(
@@ -258,8 +251,8 @@ class RecipeDetailsPage extends StatelessWidget {
                     children: (details["steps"] as Map<dynamic, dynamic>)
                         .keys
                         .map((key) => Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
                                 RecipeStep(key),
                                 XMargin(20),
@@ -273,7 +266,8 @@ class RecipeDetailsPage extends StatelessWidget {
                               ],
                             ))
                         .toList(),
-                  )
+                  ),
+                  YMargin(30)
                 ],
               ),
             )
@@ -284,129 +278,3 @@ class RecipeDetailsPage extends StatelessWidget {
   }
 }
 
-/*
-
- Padding(
-                  padding: EdgeInsets.symmetric(horizontal: getScreenWidth(context) * 0.07, vertical: 20),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              IconButton(
-                                icon: Icon(Icons.favorite_border, color: Theme.of(context).primaryColor,),
-                                onPressed: (){}
-                              ),
-                              Text(
-                                details["likes"].toString() + " likes",
-                                 style: Theme.of(context).textTheme.bodyText1
-
-                              )
-                            ],
-                          ),
-                          FlatButton(
-                            color: Colors.transparent,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              side: BorderSide(
-                                width: 1,
-                                color: Colors.white
-                              )
-                            ),
-                            onPressed: (){},
-                            child: Text(
-                              "Save",
-                              style: Theme.of(context).textTheme.bodyText1
-                            )
-                          )
-
-                        ],
-                      ),
-                      YMargin(40),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          TextWithYellowUnderline(
-                            "INGREDIENTS",
-                            style: Theme.of(context).textTheme.headline2.copyWith(
-                              fontWeight: FontWeight.normal,
-                            ),
-                          )
-                        ],
-                      ),
-                      YMargin(20),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: splitList(details["ingredients"] as List).map<Widget>((e) => 
-                           Container(
-                             
-                             margin: const EdgeInsets.only(bottom: 10),
-                             width: double.infinity,
-                             child: Row(
-                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                               
-                              children: e.map<Widget>((child) =>  Expanded(
-                                child: Row(
-                                                        children: <Widget>[
-                                    Container(
-                                      height: 5,
-                                      width: 5,
-                                      margin: const EdgeInsets.only(right: 10),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(10)
-                                      ),
-                                    ),
-                                    
-                                    Text(child.toString(), style: Theme.of(context).textTheme.bodyText1.copyWith(),),
-                                  ],
-                                ),
-                              )).toList(),
-                          ),
-                           )
-                        ).toList(),
-                      ),
-                      YMargin(40),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          TextWithYellowUnderline(
-                            "Directions",
-                            style: Theme.of(context).textTheme.headline2.copyWith(
-                              fontWeight: FontWeight.normal,
-                            ),
-                          )
-                        ],
-                      ),
-                      YMargin(30),
-                      Column(
-                        children: (details["steps"] as Map<dynamic, dynamic>).keys.map((key) => 
-                          Row(
-                            children: <Widget>[
-                              RecipeStep(key),
-                              XMargin(10),
-                              Flexible(
-                                child: Text(
-                                  details["steps"][key].toString(),
-                                      
-                                  style: Theme.of(context).textTheme.bodyText1,
-                                ),
-                              )
-                            ],
-                          )
-                        ).toList(),
-                      )
-
-
-                      
-
-
-                    ],
-                  ),
-                )
-
-*/
