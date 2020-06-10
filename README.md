@@ -17,6 +17,7 @@ The search bar helps you to quickly navigate the app to find a recipe all you ne
 This is where you find all the recipes in different categories, ranging from food, snakes, soups baked food etc.
 **SAVED RECIPE**
 In the saved recipe page you can view all your saved recipes and use them from there, this saves you time of searching for them again.
+
 **BUILT WITH :**
 - Flutter
 - VERSION
