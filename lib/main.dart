@@ -4,6 +4,7 @@ import './pages/list_recipe.dart';
 import 'package:provider/provider.dart';
 import './pages/view_recipe.dart';
 import './provider/recipes.dart';
+import './pages/splash_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,9 +22,10 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
+        debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
-          '/': (ctx) => ListRecipe(),
+          '/': (ctx) => SplashScreen(),
           CreateEditRecipe.routeName: (ctx) => CreateEditRecipe(),
           ViewRecipe.routeName: (ctx) => ViewRecipe(),
         },
