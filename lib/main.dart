@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:recipe/pages/recipe_details_page.dart';
 import './pages/create_edit_recipe.dart';
 import './pages/list_recipe.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,22 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+         primaryColor: Color(0xffFFB119),
+         fontFamily: "Source_Sans_Pro",
+         textTheme: TextTheme(
+           headline1: TextStyle(
+
+           ),
+           headline2: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+           ),
+           bodyText1: TextStyle(
+             fontSize: 19,
+             color: Colors.white
+           )
+         ),
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         debugShowCheckedModeBanner: false,
