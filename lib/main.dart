@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
          fontFamily: "Source_Sans_Pro",
          textTheme: TextTheme(
            headline1: TextStyle(
-             
+
            ),
            headline2: TextStyle(
             color: Colors.white,
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
-          '/': (ctx) => RecipeDetailsPage(),//SplashScreen(),
+          '/': (ctx) => SplashScreen(),
           CreateEditRecipe.routeName: (ctx) => CreateEditRecipe(),
           ViewRecipe.routeName: (ctx) => ViewRecipe(),
         },
