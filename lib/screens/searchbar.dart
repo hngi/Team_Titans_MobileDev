@@ -31,11 +31,10 @@ class _SearchScreenState extends State<SearchScreen> {
     for (int i = 0; i < 10; i++) {
       recipe.add(
         Recipe(
-          id: '${Data.recipes[i].id}',
-          title: '${Data.recipes[i].title}',
-          ingredients: '${Data.recipes[i].ingredients}',
-          author: '${Data.recipes[i].title}'
-        ),
+            id: '${Data.recipes[i].id}',
+            title: '${Data.recipes[i].title}',
+            ingredients: '${Data.recipes[i].ingredients}',
+            author: '${Data.recipes[i].title}'),
       );
     }
     return recipe;
@@ -51,16 +50,19 @@ class _SearchScreenState extends State<SearchScreen> {
           listPadding: EdgeInsets.symmetric(horizontal: 10),
           onSearch: getALlPosts,
           searchBarController: _searchBarController,
-          placeHolder: Center(child: Text("Under Construction",style:TextStyle(
-                                    color: authTextColor,
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 15) ,)),
+          placeHolder: Center(
+              child: Text(
+            "Under Construction",
+            style: TextStyle(
+                color: authTextColor,
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.normal,
+                fontSize: 30),
+          )),
           cancellationWidget: Text("Cancel"),
           emptyWidget: Text("empty"),
           indexedScaledTileBuilder: (int index) =>
               ScaledTile.count(1, index.isEven ? 2 : 1),
-          
           onCancelled: () {
             print("Cancelled triggered");
           },

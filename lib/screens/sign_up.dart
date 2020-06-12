@@ -33,199 +33,186 @@ class _SignUpState extends State<SignUp> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       resizeToAvoidBottomPadding: false,
-      body: Stack(
-        children: [
-          Opacity(
-            opacity: 1,
-            child: AbsorbPointer(
-              absorbing: isLoading,
-              child: Container(
-                  decoration: BoxDecoration(
-                      color: authBackgroudColor,
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/welcome.png'),
-                          fit: BoxFit.cover,
-                          colorFilter: ColorFilter.mode(
-                              authBackgroudColor, BlendMode.srcATop))),
-                  child: SafeArea(
+      body: Container(
+          decoration: BoxDecoration(
+              color: authBackgroudColor,
+              image: DecorationImage(
+                  image: AssetImage('assets/images/welcome.png'),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                      authBackgroudColor, BlendMode.srcATop))),
+          child: SafeArea(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 30),
+                Container(
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    "Sign Up",
+                    style: TextStyle(
+                        color: authTextColor,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.normal,
+                        fontSize: 43),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Form(
+                  key: _formKey,
+                  child: Theme(
+                    data: ThemeData(
+                        primaryColor: authTextColor,
+                        primaryColorDark: authTextColor),
                     child: Column(
                       children: <Widget>[
-                        SizedBox(height: 30),
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(
-                                color: authTextColor,
-                                fontStyle: FontStyle.normal,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 43),
-                          ),
-                        ),
-                        SizedBox(height: 20),
-                        Form(
-                          key: _formKey,
-                          child: Theme(
-                            data: ThemeData(
-                                primaryColor: authTextColor,
-                                primaryColorDark: authTextColor),
-                            child: Column(
-                              children: <Widget>[
-                                Padding(padding: EdgeInsets.all(8.0)),
-                                btnDesign(_userName, "Username"),
-                                btnDesign(_userEmail, "Email"),
-                                Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Container(
-                                    height: 50,
-                                    child: TextFormField(
-                                      obscureText: obscure,
-                                       style: TextStyle(color: Colors.white, fontSize: 15),
-                                      decoration: InputDecoration(
-                                        
-                                        suffixIcon: IconButton(
-                                          icon: obscure == false
-                                              ? Icon(Icons.remove_red_eye,
-                                                  color: Color(0xfffb176e))
-                                              : Icon(Icons.visibility_off,
-                                                  color: Color(0xfffb176e)),
-                                          onPressed: () {
-                                            setState(() {
-                                              if (obscure == true) {
-                                                obscure = false;
-                                              } else {
-                                                obscure = true;
-                                              }
-                                            });
-                                          },
-                                        ),
-                                        labelStyle: TextStyle(
-                                            color: Colors.white, fontSize: 15),
-                                        focusColor: authTextColor,
-                                        enabledBorder: const OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: authTextColor, width: 0.0),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          // gapPadding: 10.0,
-                                          borderSide: const BorderSide(
-                                              color: authTextColor, width: 0.0),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        labelText: "Password",
-                                      ),
-                                      controller: _userPassword,
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return "Your Password cannot be empty";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      keyboardType: TextInputType.text,
-                                      
-                                    ),
-                                  ),
+                        Padding(padding: EdgeInsets.all(8.0)),
+                        btnDesign(_userName, "Username"),
+                        btnDesign(_userEmail, "Email"),
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            height: 50,
+                            child: TextFormField(
+                              obscureText: obscure,
+                               style: TextStyle(color: Colors.white, fontSize: 15),
+                              decoration: InputDecoration(
+                                
+                                suffixIcon: IconButton(
+                                  icon: obscure == false
+                                      ? Icon(Icons.remove_red_eye,
+                                       )
+                                      : Icon(Icons.visibility_off,
+                                         ),
+                                  onPressed: () {
+                                    setState(() {
+                                      if (obscure == true) {
+                                        obscure = false;
+                                      } else {
+                                        obscure = true;
+                                      }
+                                    });
+                                  },
                                 ),
-                                    Padding(
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: Container(
-                                    height: 50,
-                                    child: TextFormField(
-                                       style: TextStyle(color: Colors.white, fontSize: 15),
-                                      decoration: InputDecoration(
-                                        suffixIcon: IconButton(
-                                          icon: obscure == false
-                                              ? Icon(Icons.remove_red_eye,
-                                                  color: Color(0xfffb176e))
-                                              : Icon(Icons.visibility_off,
-                                                  color: Color(0xfffb176e)),
-                                          onPressed: () {
-                                            setState(() {
-                                              if (obscure == true) {
-                                                obscure = false;
-                                              } else {
-                                                obscure = true;
-                                              }
-                                            });
-                                          },
-                                        ),
-                                        labelStyle: TextStyle(
-                                            color: Colors.white, fontSize: 15),
-                                        focusColor: authTextColor,
-                                        enabledBorder: const OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                              color: authTextColor, width: 0.0),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          // gapPadding: 10.0,
-                                          borderSide: const BorderSide(
-                                              color: authTextColor, width: 0.0),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        labelText: "Confirm Password",
-                                      ),
-                                      controller: _confirmUserPassword,
-                                      validator: (value) {
-                                        if (value.isEmpty) {
-                                          return "Your Password cannot be empty";
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      keyboardType: TextInputType.text,
-                                      
-                                    ),
-                                  ),
+                                labelStyle: TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                                focusColor: authTextColor,
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: authTextColor, width: 0.0),
                                 ),
-                               
-                              ],
+                                border: OutlineInputBorder(
+                                  // gapPadding: 10.0,
+                                  borderSide: const BorderSide(
+                                      color: authTextColor, width: 0.0),
+                                  borderRadius:
+                                      BorderRadius.circular(8),
+                                ),
+                                labelText: "Password",
+                              ),
+                              controller: _userPassword,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "Your Password cannot be empty";
+                                } else {
+                                  return null;
+                                }
+                              },
+                              keyboardType: TextInputType.text,
+                              
                             ),
                           ),
                         ),
-                        SizedBox(height: 40),
-                        InkWell(
-                            onTap: () {
-                              if (_formKey.currentState.validate()) {
-                                if (_userPassword.text ==
-                                    _confirmUserPassword.text) {
-                                  registerToFb();
+                            Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Container(
+                            height: 50,
+                            child: TextFormField(
+                               style: TextStyle(color: Colors.white, fontSize: 15),
+                              decoration: InputDecoration(
+                                suffixIcon: IconButton(
+                                  icon: obscure == false
+                                      ? Icon(Icons.remove_red_eye,
+                                          color: Color(0xfffb176e))
+                                      : Icon(Icons.visibility_off,
+                                          color: Color(0xfffb176e)),
+                                  onPressed: () {
+                                    setState(() {
+                                      if (obscure == true) {
+                                        obscure = false;
+                                      } else {
+                                        obscure = true;
+                                      }
+                                    });
+                                  },
+                                ),
+                                labelStyle: TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                                focusColor: authTextColor,
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: authTextColor, width: 0.0),
+                                ),
+                                border: OutlineInputBorder(
+                                  // gapPadding: 10.0,
+                                  borderSide: const BorderSide(
+                                      color: authTextColor, width: 0.0),
+                                  borderRadius:
+                                      BorderRadius.circular(8),
+                                ),
+                                labelText: "Confirm Password",
+                              ),
+                              controller: _confirmUserPassword,
+                              validator: (value) {
+                                if (value.isEmpty) {
+                                  return "Your Password cannot be empty";
+                                } else {
+                                  return null;
                                 }
-                              }
-                            },
-                            child: btnButton("Sign Up")),
-                        SizedBox(height: 10),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        SignIn()));
-                          },
-                          child: Text.rich(TextSpan(
-                              text: "Already have an account? ",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 15),
-                              children: <TextSpan>[
-                                TextSpan(
-                                    text: " Log In",
-                                    style: TextStyle(
-                                        color: authTextColor, fontSize: 15))
-                              ])),
-                        )
+                              },
+                              keyboardType: TextInputType.text,
+                              
+                            ),
+                          ),
+                        ),
+                       
                       ],
                     ),
-                  )),
+                  ),
+                ),
+                SizedBox(height: 40),
+                InkWell(
+                    onTap: () {
+                      if (_formKey.currentState.validate()) {
+                        if (_userPassword.text ==
+                            _confirmUserPassword.text) {
+                          registerToFb();
+                        }
+                      }
+                    },
+                    child: isLoading == true ? CircularProgressIndicator() :btnButton("Sign Up")),
+                SizedBox(height: 10),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                SignIn()));
+                  },
+                  child: Text.rich(TextSpan(
+                      text: "Already have an account? ",
+                      style:
+                          TextStyle(color: Colors.white, fontSize: 15),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: " Log In",
+                            style: TextStyle(
+                                color: authTextColor, fontSize: 15))
+                      ])),
+                )
+              ],
             ),
-          ),
-          Opacity(
-              opacity: isLoading == true ? 0.6 : 0,
-              child: Lottie.asset("assets/images/18563-cooking.json"))
-        ],
-      ),
+          )),
     );
   }
 
