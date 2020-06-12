@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe/pages/create_edit_recipe.dart';
 import 'package:recipe/pages/list_recipe.dart';
+import 'package:recipe/screens/sigin_in.dart';
 
 
 
@@ -57,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 padding: EdgeInsets.only(left: 65.0, right: 65.0 ),
                 child: RaisedButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ListRecipe()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SignIn()));
                   },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),

@@ -1,0 +1,269 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:recipe/const/colors.dart';
+import 'package:recipe/const/widget.dart';
+import 'package:recipe/screens/home_page.dart';
+import 'package:recipe/screens/sigin_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+import 'btnNav.dart';
+
+class SignUp extends StatefulWidget {
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  bool isLoading = false;
+  bool obscure = true;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  DatabaseReference dbRef =
+      FirebaseDatabase.instance.reference().child("Users");
+  GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
+  TextEditingController _userEmail = new TextEditingController();
+  TextEditingController _userPassword = new TextEditingController();
+  TextEditingController _confirmUserPassword = new TextEditingController();
+  TextEditingController _userName = new TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomPadding: false,
+      body: Stack(
+        children: [
+          Opacity(
+            opacity: 1,
+            child: AbsorbPointer(
+              absorbing: isLoading,
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: authBackgroudColor,
+                      image: DecorationImage(
+                          image: AssetImage('assets/images/welcome.png'),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                              authBackgroudColor, BlendMode.srcATop))),
+                  child: SafeArea(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(height: 30),
+                        Container(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                color: authTextColor,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 43),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Form(
+                          key: _formKey,
+                          child: Theme(
+                            data: ThemeData(
+                                primaryColor: authTextColor,
+                                primaryColorDark: authTextColor),
+                            child: Column(
+                              children: <Widget>[
+                                Padding(padding: EdgeInsets.all(8.0)),
+                                btnDesign(_userName, "Username"),
+                                btnDesign(_userEmail, "Email"),
+                                Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Container(
+                                    height: 50,
+                                    child: TextFormField(
+                                      obscureText: obscure,
+                                       style: TextStyle(color: Colors.white, fontSize: 15),
+                                      decoration: InputDecoration(
+                                        
+                                        suffixIcon: IconButton(
+                                          icon: obscure == false
+                                              ? Icon(Icons.remove_red_eye,
+                                                  color: Color(0xfffb176e))
+                                              : Icon(Icons.visibility_off,
+                                                  color: Color(0xfffb176e)),
+                                          onPressed: () {
+                                            setState(() {
+                                              if (obscure == true) {
+                                                obscure = false;
+                                              } else {
+                                                obscure = true;
+                                              }
+                                            });
+                                          },
+                                        ),
+                                        labelStyle: TextStyle(
+                                            color: Colors.white, fontSize: 15),
+                                        focusColor: authTextColor,
+                                        enabledBorder: const OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: authTextColor, width: 0.0),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          // gapPadding: 10.0,
+                                          borderSide: const BorderSide(
+                                              color: authTextColor, width: 0.0),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        labelText: "Password",
+                                      ),
+                                      controller: _userPassword,
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return "Your Password cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      keyboardType: TextInputType.text,
+                                      
+                                    ),
+                                  ),
+                                ),
+                                    Padding(
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: Container(
+                                    height: 50,
+                                    child: TextFormField(
+                                       style: TextStyle(color: Colors.white, fontSize: 15),
+                                      decoration: InputDecoration(
+                                        suffixIcon: IconButton(
+                                          icon: obscure == false
+                                              ? Icon(Icons.remove_red_eye,
+                                                  color: Color(0xfffb176e))
+                                              : Icon(Icons.visibility_off,
+                                                  color: Color(0xfffb176e)),
+                                          onPressed: () {
+                                            setState(() {
+                                              if (obscure == true) {
+                                                obscure = false;
+                                              } else {
+                                                obscure = true;
+                                              }
+                                            });
+                                          },
+                                        ),
+                                        labelStyle: TextStyle(
+                                            color: Colors.white, fontSize: 15),
+                                        focusColor: authTextColor,
+                                        enabledBorder: const OutlineInputBorder(
+                                          borderSide: const BorderSide(
+                                              color: authTextColor, width: 0.0),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          // gapPadding: 10.0,
+                                          borderSide: const BorderSide(
+                                              color: authTextColor, width: 0.0),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                        labelText: "Confirm Password",
+                                      ),
+                                      controller: _confirmUserPassword,
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return "Your Password cannot be empty";
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      keyboardType: TextInputType.text,
+                                      
+                                    ),
+                                  ),
+                                ),
+                               
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 40),
+                        InkWell(
+                            onTap: () {
+                              if (_formKey.currentState.validate()) {
+                                if (_userPassword.text ==
+                                    _confirmUserPassword.text) {
+                                  registerToFb();
+                                }
+                              }
+                            },
+                            child: btnButton("Sign Up")),
+                        SizedBox(height: 10),
+                        InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        SignIn()));
+                          },
+                          child: Text.rich(TextSpan(
+                              text: "Already have an account? ",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
+                              children: <TextSpan>[
+                                TextSpan(
+                                    text: " Log In",
+                                    style: TextStyle(
+                                        color: authTextColor, fontSize: 15))
+                              ])),
+                        )
+                      ],
+                    ),
+                  )),
+            ),
+          ),
+          Opacity(
+              opacity: isLoading == true ? 0.6 : 0,
+              child: Lottie.asset("assets/images/18563-cooking.json"))
+        ],
+      ),
+    );
+  }
+
+  void registerToFb() {
+    setState(() {
+      isLoading = true;
+    });
+    firebaseAuth
+        .createUserWithEmailAndPassword(
+            email: _userEmail.text, password: _userPassword.text)
+        .then((result) {
+      Firestore.instance.collection("users").document(result.user.uid).setData({
+        "uid": result.user.uid,
+        "email": _userEmail.text,
+        "name": _userName
+      }).then((res) {
+        setState(() {
+          isLoading = false;
+        });
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => Home(uid: result.user.uid)),
+        );
+      });
+    }).catchError((err) {
+      setState(() {
+        isLoading = false;
+      });
+      showToast(err.message, Colors.red);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _userName.dispose();
+    _userEmail.dispose();
+    _userPassword.dispose();
+    _confirmUserPassword.dispose();
+  }
+}
