@@ -4,6 +4,7 @@ import './pages/list_recipe.dart';
 import 'package:provider/provider.dart';
 import './pages/view_recipe.dart';
 import './provider/recipes.dart';
+import './pages/login.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       builder: (ctx) => Recipes(),
+      create: (BuildContext context) {  },
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -23,9 +25,10 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-          '/': (ctx) => ListRecipe(),
-          CreateEditRecipe.routeName: (ctx) => CreateEditRecipe(),
-          ViewRecipe.routeName: (ctx) => ViewRecipe(),
+          '/': (ctx) => LoginScreen(),
+//          CreateEditRecipe.routeName: (ctx) => CreateEditRecipe(),
+//          ViewRecipe.routeName: (ctx) => ViewRecipe(),
+
         },
       ),
     );
