@@ -4,7 +4,7 @@ import './pages/list_recipe.dart';
 import 'package:provider/provider.dart';
 import './pages/view_recipe.dart';
 import './provider/recipes.dart';
-import './pages/login.dart';
+import './pages/forgotpassword.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-          '/': (ctx) => LoginScreen(),
+          '/': (ctx) => ForgotPasswordScreen(),
 //          CreateEditRecipe.routeName: (ctx) => CreateEditRecipe(),
 //          ViewRecipe.routeName: (ctx) => ViewRecipe(),
 
