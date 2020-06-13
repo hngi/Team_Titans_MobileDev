@@ -1,6 +1,7 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -51,17 +52,17 @@ class _HomePageState extends State<HomePage> {
         ));
     return Scaffold(
         body: SingleChildScrollView(
-      child: StreamBuilder(
-        stream: Firestore.instance
+          child: StreamBuilder(
+            stream: Firestore.instance
                   .collection('users')
                   .document('${widget.uid}')
                   .snapshots(),
-        builder: (BuildContext context,
+            builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
-          return Container(
-            margin: EdgeInsets.symmetric(horizontal: 8.0),
-            child: Column(
-              children: <Widget>[
+            return Container(
+              margin: EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                children: <Widget>[
                 SizedBox(
                   height: 10,
                 ),
@@ -73,7 +74,8 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                         color: Colors.black26,
                         fontFamily: 'Source_Sans_Pro',
-                        fontSize: 25,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 24,
                       ),
                     ),
                     Padding(
@@ -92,6 +94,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(
                           color: Colors.green,
                           fontSize: 20,
+                          fontWeight: FontWeight.bold,
                           fontFamily: 'Source_Sans_Pro')) : Text(""),
                 ),
                 SizedBox(
@@ -103,7 +106,8 @@ class _HomePageState extends State<HomePage> {
                       "What will you like to cook today ?",
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 24,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600,
                           fontFamily: 'Source_Sans_Pro'),
                     )),
                 SizedBox(
@@ -141,8 +145,9 @@ class _HomePageState extends State<HomePage> {
                     "Local Recipes",
                     style: TextStyle(
                         color: Colors.black87.withOpacity(0.8),
+                        fontFamily: 'Source_Sans_Pro',
                         fontSize: 20,
-                        fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.normal),
                   ),
                 ),
                 SizedBox(
@@ -213,6 +218,7 @@ class _HomePageState extends State<HomePage> {
                                 "“One cannot think well, love well, sleep well, if one has not dined well.” ",
                                 style: TextStyle(
                                     color: Colors.white,
+                                    fontFamily: 'Source_Sans_Pro',
                                     fontWeight: FontWeight.bold),
                               ),
                             )
@@ -231,8 +237,9 @@ class _HomePageState extends State<HomePage> {
                     "Continental Recipes",
                     style: TextStyle(
                         color: Colors.black87.withOpacity(0.8),
+                        fontFamily: 'Source_Sans_Pro',
                         fontSize: 20,
-                        fontWeight: FontWeight.w600),
+                        fontWeight: FontWeight.normal),
                   ),
                 ),
                 SizedBox(
@@ -301,14 +308,14 @@ class SpecialistTile extends StatelessWidget {
         children: <Widget>[
           Text(
             speciality,
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: TextStyle(color: Colors.white, fontFamily: 'Source_Sans_Pro', fontSize: 20),
           ),
           SizedBox(
             height: 6,
           ),
           Text(
             "$noOfDoctors Minutes",
-            style: TextStyle(color: Colors.white, fontSize: 13),
+            style: TextStyle(color: Colors.white, fontFamily: 'Source_Sans_Pro', fontSize: 13),
           ),
           SizedBox(
             height: 6,
@@ -351,7 +358,7 @@ class UserlistTile extends StatelessWidget {
         children: <Widget>[
           Text(
             speciality,
-            style: TextStyle(color: Colors.white, fontSize: 20),
+            style: TextStyle(color: Colors.white, fontFamily: 'Source_Sans_Pro', fontWeight:FontWeight.normal, fontSize: 20),
           ),
           SizedBox(
             height: 6,
@@ -368,7 +375,7 @@ class UserlistTile extends StatelessWidget {
           ),
           Text(
             "$noOfDoctors Minutes",
-            style: TextStyle(color: Colors.white, fontSize: 13),
+            style: TextStyle(color: Colors.white, fontFamily: 'Source_Sans_Pro', fontSize: 13),
           ),
         ],
       ),

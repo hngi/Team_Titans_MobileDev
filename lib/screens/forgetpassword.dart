@@ -61,11 +61,13 @@ class _ForState extends State<For> {
                 children: <Widget>[
                   SizedBox(height: 30),
                   Container(
+                    padding: EdgeInsets.only(left: 10.0),
                     alignment: Alignment.topLeft,
                     child: Text(
                       "Enter your email to reset your password",
                       style: TextStyle(
                           color: authTextColor,
+                          fontFamily: 'Source_Sans_Pro',
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
                           fontSize: 30),

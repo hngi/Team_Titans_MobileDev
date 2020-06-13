@@ -49,17 +49,19 @@ class _SignUpState extends State<SignUp> {
                 children: <Widget>[
                   SizedBox(height: 30),
                   Container(
+                    padding: EdgeInsets.only(left: 10.0),
                     alignment: Alignment.topLeft,
                     child: Text(
                       "Sign Up",
                       style: TextStyle(
                           color: authTextColor,
+                          fontFamily: 'Source_Sans_Pro',
                           fontStyle: FontStyle.normal,
                           fontWeight: FontWeight.normal,
                           fontSize: 43),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   Form(
                     key: _formKey,
                     child: Theme(
@@ -76,7 +78,7 @@ class _SignUpState extends State<SignUp> {
                             child: TextFormField(
                               obscureText: obscure,
                               style:
-                                  TextStyle(color: Colors.white, fontSize: 15),
+                                  TextStyle(color: Colors.white, fontFamily: 'Source_Sans_Pro', fontSize: 15),
                               decoration: InputDecoration(
                                 suffixIcon: IconButton(
                                   icon: obscure == false
@@ -97,7 +99,7 @@ class _SignUpState extends State<SignUp> {
                                   },
                                 ),
                                 labelStyle: TextStyle(
-                                    color: Colors.white, fontSize: 15),
+                                    color: Colors.white, fontFamily: 'Source_Sans_Pro', fontSize: 15),
                                 focusColor: authTextColor,
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: const BorderSide(
@@ -149,7 +151,7 @@ class _SignUpState extends State<SignUp> {
                                   },
                                 ),
                                 labelStyle: TextStyle(
-                                    color: Colors.white, fontSize: 15),
+                                    color: Colors.white, fontFamily: 'Source_Sans_Pro', fontSize: 15),
                                 focusColor: authTextColor,
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: const BorderSide(
@@ -200,12 +202,12 @@ class _SignUpState extends State<SignUp> {
                     },
                     child: Text.rich(TextSpan(
                         text: "Already have an account? ",
-                        style: TextStyle(color: Colors.white, fontSize: 15),
+                        style: TextStyle(color: Colors.white, fontFamily: 'Source_Sans_Pro', fontSize: 15),
                         children: <TextSpan>[
                           TextSpan(
                               text: "Log In",
                               style:
-                                  TextStyle(color: authTextColor, fontSize: 15))
+                                  TextStyle(color: authTextColor, fontFamily: 'Source_Sans_Pro', fontSize: 15))
                         ])),
                   )
                 ],
