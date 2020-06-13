@@ -43,32 +43,44 @@ class _ListGridViewState extends State<ListGridView> {
                                       "${Data.recipes[index].imageUrl}"),
                                   fit: BoxFit.fitHeight),
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                                  BorderRadius.all(Radius.circular(10.0))),
                         ),
                         Column(
                           children: <Widget>[
                             Padding(
-                              padding: const EdgeInsets.only(left: 10),
+                              padding: const EdgeInsets.only(left: 10.0),
                               child: Container(
                                   alignment: Alignment.centerLeft,
                                   child: Text("${Data.recipes[index].title}",
                                       style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black))),
+                                          fontSize: 18,
+                                          fontFamily: 'Source_Sans_Pro',
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey[800]))),
                             ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 10.0, left: 10),
-                              child: Container(
-                                  alignment: Alignment.topLeft,
-                                  child: Text(
-                                      "${Data.recipes[index].time} Minutes",
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ))),
+                            Container(
+                              padding: const EdgeInsets.only(left:10.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                      child: Icon(Icons.access_alarm, size: 20, color: Colors.grey[800],)
+                                  ),
+                                  Padding(
+                                    padding:
+                                    const EdgeInsets.only(left: 3.0),
+                                    child: Container(
+                                        alignment: Alignment.topLeft,
+                                        child: Text(
+                                            "${Data.recipes[index].time}mins",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontFamily: 'Source_Sans_Pro',
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.grey[800],
+                                            ))),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
