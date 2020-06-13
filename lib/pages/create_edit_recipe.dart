@@ -12,23 +12,34 @@ class CreateEditRecipe extends StatefulWidget {
 class _CreateEditRecipeState extends State<CreateEditRecipe> {
   //set Global form key
   final GlobalKey<FormState> _formStatekey = GlobalKey<FormState>();
-
-  
-  var _editedRecipe = Recipe(id: null, title: '', ingredients: '', author: '');
+  List ingrid = [];
+  List mysteps = [];
+  var _editedRecipe = Recipe(
+      id: null,
+      title: '',
+      imageUrl: '',
+      author: '',
+      description: '',
+      time: 0,
+      ingredients: [],
+      steps: []);
   var _isInit = true;
 
   //wE USE INITIAL VALUES BECAUSE OUR FORM ALSO EDITS PRODUCTS
   var _initValues = {
     'title': '',
+    'imageUrl': '',
     'author': '',
-    'ingredients': '',
+    'description': '',
+    'time': 0,
+    'ingredients': [],
+    'steps': [],
   };
 
 //THis function validates input to ensure they are not empty
   String _validateItemRequired(String value) {
     return value.isEmpty ? 'Item Required' : null;
   }
-
 
   @override
   void didChangeDependencies() {
@@ -39,15 +50,18 @@ class _CreateEditRecipeState extends State<CreateEditRecipe> {
         //SETS INITIAL VALUES OF FORMM FIELDS IF IT EHAS AN ID
         _initValues = {
           'title': _editedRecipe.title,
+          'imageUrl': _editedRecipe.imageUrl,
           'author': _editedRecipe.author,
-          'body': _editedRecipe.ingredients,
+          'description': _editedRecipe.description,
+          'time': _editedRecipe.time,
+          'ingredients': _editedRecipe.ingredients,
+          'steps': _editedRecipe.steps,
         };
       }
     }
     _isInit = false;
     super.didChangeDependencies();
   }
-
 
   void _submitOrder() {
     /*
@@ -56,16 +70,18 @@ class _CreateEditRecipeState extends State<CreateEditRecipe> {
      */
     if (_formStatekey.currentState.validate()) {
       _formStatekey.currentState.save();
-      if(_editedRecipe.id != null){
+      if (_editedRecipe.id != null) {
         //if recipes has an id use the updaterecipe method otherwise create a new recipe
-        Provider.of<Recipes>(context, listen: false).updateRecipe(_editedRecipe.id, _editedRecipe);
+        Provider.of<Recipes>(context, listen: false)
+            .updateRecipe(_editedRecipe.id, _editedRecipe);
         Navigator.of(context).pop();
-      }else{
+      } else {
         Provider.of<Recipes>(context, listen: false).addRecipe(_editedRecipe);
         Navigator.of(context).pop();
       }
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,50 +112,138 @@ class _CreateEditRecipeState extends State<CreateEditRecipe> {
                     //Initial value acts like a Text Controllerr but you can't use both
                     validator: (value) => _validateItemRequired(value),
                     onSaved: (value) => _editedRecipe = Recipe(
-                        id: _editedRecipe.id,
-                        title: _editedRecipe.title,
-                        ingredients: _editedRecipe.ingredients,
-                        author: value,
-                          ),
+                      id: _editedRecipe.id,
+                      title: _editedRecipe.title,
+                      author: value,
+                      imageUrl: _editedRecipe.imageUrl,
+                      description: _editedRecipe.description,
+                      time: _editedRecipe.time,
+                      ingredients: ingrid,
+                      steps: _editedRecipe.steps,
+                    ),
                   ),
                   TextFormField(
                     decoration: InputDecoration(
                       hintText: 'Oat Soup',
                       labelText: 'Title',
                     ),
-                     initialValue: _initValues['title'],
+                    initialValue: _initValues['title'],
                     validator: (value) => _validateItemRequired(value),
                     onSaved: (value) => _editedRecipe = Recipe(
-                        id: _editedRecipe.id,
-                        title: value,
-                        ingredients: _editedRecipe.ingredients,
-                        author: _editedRecipe.author,
-                        ),
+                      id: _editedRecipe.id,
+                      title: value,
+                      author: _editedRecipe.author,
+                      imageUrl: _editedRecipe.imageUrl,
+                      description: _editedRecipe.description,
+                      time: _editedRecipe.time,
+                      ingredients: ingrid,
+                      steps: _editedRecipe.steps,
+                    ),
+                  ),
+                   TextFormField(
+                    decoration: InputDecoration(
+                      hintText: '',
+                      labelText: 'Image',
+                    ),
+                    initialValue: _initValues['imageUrl'],
+                    validator: (value) => _validateItemRequired(value),
+                    onSaved: (value) => _editedRecipe = Recipe(
+                      id: _editedRecipe.id,
+                      title: value,
+                      author: _editedRecipe.author,
+                      imageUrl: value,
+                      description: _editedRecipe.description,
+                      time: _editedRecipe.time,
+                      ingredients: ingrid,
+                      steps: _editedRecipe.steps,
+                    ),
+                  ),
+                  
+                   TextFormField(
+                    decoration: InputDecoration(
+                      hintText: 'Oat Soup',
+                      labelText: 'Description',
+                    ),
+                    initialValue: _initValues['description'],
+                    validator: (value) => _validateItemRequired(value),
+                    onSaved: (value) => _editedRecipe = Recipe(
+                      id: _editedRecipe.id,
+                      title: value,
+                      author: _editedRecipe.author,
+                      imageUrl: _editedRecipe.imageUrl,
+                      description: value,
+                      time: _editedRecipe.time,
+                      ingredients: ingrid,
+                      steps: _editedRecipe.steps,
+                    ),
+                  ),
+                   TextFormField(
+                    decoration: InputDecoration(
+                      hintText: '25',
+                      labelText: 'Time',
+                    ),
+                    initialValue: _initValues['tine'],
+                    validator: (value) => _validateItemRequired(value),
+                    onSaved: (value) => _editedRecipe = Recipe(
+                      id: _editedRecipe.id,
+                      title: value,
+                      author: _editedRecipe.author,
+                      imageUrl: _editedRecipe.imageUrl,
+                      description: _editedRecipe.description,
+                      time:  double.parse(value),
+                      ingredients: ingrid,
+                      steps: mysteps,
+                    ),
                   ),
                   TextFormField(
-                    decoration: InputDecoration(
-                      hintText: 'I add Tomatos',
-                      labelText: 'Ingredients',
-                    ),
-                     initialValue: _initValues['body'],
-                    validator: (value) => _validateItemRequired(value),
-                    onSaved: (value) => _editedRecipe = Recipe(
-                        id: _editedRecipe.id,
-                        title: _editedRecipe.title,
-                        ingredients: value,
-                        author: _editedRecipe.author,
-                        ),
-                  ),
+                      decoration: InputDecoration(
+                        hintText: 'I add Tomatos',
+                        labelText: 'Ingredients',
+                      ),
+                      initialValue: _initValues['ingredients'],
+                      validator: (value) => _validateItemRequired(value),
+                      onSaved: (value) => {
+                            _editedRecipe.ingredients.add(value),
+                            _editedRecipe = Recipe(
+                              id: _editedRecipe.id,
+                              title: _editedRecipe.title,
+                              author: _editedRecipe.author,
+                              imageUrl: _editedRecipe.imageUrl,
+                              description: _editedRecipe.description,
+                              time: _editedRecipe.time,
+                              ingredients: ingrid,
+                              steps: _editedRecipe.steps,
+                            ),
+                          }),
+                     TextFormField(
+                      decoration: InputDecoration(
+                        hintText: 'I add Tomatos',
+                        labelText: 'Steps',
+                      ),
+                      initialValue: _initValues['steps'],
+                      validator: (value) => _validateItemRequired(value),
+                      onSaved: (value) => {
+                          _editedRecipe.steps.add(value),
+                            _editedRecipe = Recipe(
+                              id: _editedRecipe.id,
+                              title: _editedRecipe.title,
+                              author: _editedRecipe.author,
+                              imageUrl: _editedRecipe.imageUrl,
+                              description: _editedRecipe.description,
+                              time: _editedRecipe.time,
+                              ingredients:_editedRecipe.ingredients ,
+                              steps: _editedRecipe.steps,
+                            ),
+                          }),
                   Divider(
                     height: 32.0,
                   ),
                   RaisedButton(
-                    child: Text('Save'),
-                    color: Colors.teal,
-                    onPressed: () {
-                      _submitOrder();
-                    } 
-                  )
+                      child: Text('Save'),
+                      color: Colors.teal,
+                      onPressed: () {
+                        _submitOrder();
+                      })
                 ]),
               ),
             ),
