@@ -2,7 +2,6 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe/const/colors.dart';
 import 'package:recipe/pages/detail.dart';
-import 'package:lottie/lottie.dart';
 import 'package:recipe/utils/data.dart';
 
 class HomePage extends StatefulWidget {

@@ -17,7 +17,7 @@ class ListItems extends StatelessWidget {
           recipes[i].id,
           recipes[i].title,
           recipes[i].author,
-          recipes[i].ingredients,
+          recipes[i].ingredients[i],
         )
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe/app.dart';
 import './pages/create_edit_recipe.dart';
 import './pages/list_recipe.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
-          '/': (ctx) => SplashScreen(),
+          '/': (ctx) => Home(),
           CreateEditRecipe.routeName: (ctx) => CreateEditRecipe(),
           ViewRecipe.routeName: (ctx) => ViewRecipe(),
         },

@@ -1,23 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'recipe.dart';
 
 class Recipes with ChangeNotifier {
   
   //This list stoes all recipes
   List<Recipe> _items = [
-    Recipe(
-      id:'1',
-      author: 'daliseiy',
-      title: 'Fall of Avhillies',
-      ingredients: "oiffwee",
-      ),
-      Recipe(
-      id:'2',
-      author: 'daliseiy',
-      title: 'Agewons cinquwsr',
-      ingredients: "oiffwee",
-      )
   ];
 
   //var _showFavoritesOnly = false; 
@@ -41,26 +33,104 @@ class Recipes with ChangeNotifier {
     return _items.firstWhere((recipe) => recipe.id == id);
   }
 
-  void addRecipe(Recipe recipe) {
-    /*
-    Adds a new recipe to the list of Recipes
-     */
-    final newRecipe = Recipe(id: DateTime.now().toString(),title: recipe.title,author: recipe.author,ingredients: recipe.ingredients);
-    _items.add(newRecipe);
-    notifyListeners();
+Future<void> fetchAndSetProducts() async {
+    const url =  "https://ounje-3854d.firebaseio.com/recipe.json";
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      final List<Recipe> loadedRecipe = [];
+      extractedData.forEach((recipeId, recipeData) {
+        loadedRecipe.add(Recipe(
+          id: recipeId,
+          imageUrl: recipeData['imageUrl'],
+          author: recipeData['author'],
+          title: recipeData['title'],
+          description: recipeData['descriptioon'],
+          time: recipeData['time'],
+          ingredients: recipeData['ingredients'],
+          steps: recipeData['steps'],
+
+        ));
+      });
+      _items = loadedRecipe;
+      notifyListeners();
+    } catch (error) {
+      throw (error);
+    }
   }
 
-  void updateRecipe(String id, Recipe editedRecipe){
-    //Recipes a re updates based on their index in the list
-    final recipeIndex = _items.indexWhere((recipe) => recipe.id==id);
-      _items[recipeIndex] = editedRecipe;
-    //Notift listners send an update to the entire application when changes are made
+  Future<void>  addRecipe(Recipe recipe) async{
+    const url =  "https://ounje-3854d.firebaseio.com/recipe.json";
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'title': recipe.title,
+          'imageUrl' : recipe.imageUrl,
+          'author' : recipe.author,
+          'description' : recipe.description,
+          'time': recipe.title,
+          'ingredients': recipe.ingredients,
+          'steps' : recipe.steps
+        }),
+      );
+    final newRecipe = Recipe(
+      id: DateTime.now().toString(),
+      title: recipe.title, 
+      imageUrl: recipe.imageUrl, 
+      author: recipe.author,
+      description: recipe.description,
+      time: recipe.time,
+      ingredients: recipe.ingredients,
+      steps: recipe.steps
+    );
+    _items.add(newRecipe);
     notifyListeners();
+    } catch(error) {
+      print(error);
+      throw error;
+    }
+  }
+
+  Future<void> updateRecipe(String id, Recipe editedRecipe) async{
+     final recipeIndex = _items.indexWhere((recipe) => recipe.id==id);
+     if(recipeIndex >= 0 ){
+        final url =  "https://ounje-3854d.firebaseio.com/recipe/$id.json";
+        await http.patch(url,
+          body:json.encode({
+          'title': editedRecipe.title,
+          'imageUrl' : editedRecipe.imageUrl,
+          'author' : editedRecipe.author,
+          'description' : editedRecipe.description,
+          'time': editedRecipe.title,
+          'ingredients': editedRecipe.ingredients,
+          'steps' : editedRecipe.steps
+          })
+        );
+        _items[recipeIndex] = editedRecipe;
+       notifyListeners();
+     }else{
+       print('...');
+     }
+    
+    //Recipes a re updates based on their index in the list
+   
+    //Notift listners send an update to the entire application when changes are made
+   
   }
   
-  void deleteRecipe(String id){
-    //Remove recipe from list of Recipes
-    _items.removeWhere((recipe) => recipe.id==id);
+  Future<void> deleteRecipe(String id) async{
+    final url =  "https://ounje-3854d.firebaseio.com/recipe/$id.json";
+    final existingRecipeIndex = _items.indexWhere((recipe) => recipe.id==id);
+    var existingRecipe = _items[existingRecipeIndex];
+    _items.removeAt(existingRecipeIndex);
     notifyListeners();
+    final response = await http.delete(url);
+      if (response.statusCode >= 400){
+        _items.insert(existingRecipeIndex, existingRecipe);
+        notifyListeners();
+        throw HttpException('Could not delete recipe');
+      }
+      existingRecipe = null;
   }
 }

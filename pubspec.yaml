@@ -32,7 +32,6 @@ dependencies:
   http: ^0.12.1
   firebase_auth: ^0.16.1
   firebase_database: ^3.1.6
-  lottie: ^0.4.0+1
   fluttertoast: ^4.0.1
   bottom_navy_bar: ^5.4.0
   flappy_search_bar: ^1.7.2
@@ -60,7 +59,13 @@ flutter:
   assets:
     - assets/images/kisspng-chef-drawing-cooking.png
     - assets/images/
-    - assets/
+    - assets/images/cooking_1.jpeg
+    - assets/images/cooking_2.jpeg
+    - assets/images/cooking_3.jpeg
+    - assets/images/piccata.jpg
+    - assets/images/pancake.jpg
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
