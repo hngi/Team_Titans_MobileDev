@@ -5,35 +5,34 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:recipe/const/colors.dart';
 
 Widget btnDesign(TextEditingController controllerName, String labelName) {
+  double inputSize = 50;
   return Padding(
     padding: const EdgeInsets.all(10.0),
-    child: Container(
-      height: 50,
-      child: TextFormField(
-        decoration: InputDecoration(
-          labelStyle: TextStyle(color: Colors.white, fontSize: 15),
-          focusColor: authTextColor,
-          enabledBorder: const OutlineInputBorder(
-            borderSide: const BorderSide(color: authTextColor, width: 0.0),
-          ),
-          border: OutlineInputBorder(
-            // gapPadding: 10.0,
-            borderSide: const BorderSide(color: authTextColor, width: 0.0),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          labelText: labelName,
+    child: TextFormField(
+      decoration: InputDecoration(
+        labelStyle: TextStyle(color: Colors.white, fontSize: 15),
+        focusColor: authTextColor,
+        enabledBorder: const OutlineInputBorder(
+          borderSide: const BorderSide(color: authTextColor, width: 0.0),
         ),
-        controller: controllerName,
-        validator: (value) {
-          if (value.isEmpty) {
-            return "Your $labelName cannot be empty";
-          } else {
-            return null;
-          }
-        },
-        keyboardType: TextInputType.text,
-        style: TextStyle(color: Colors.white, fontSize: 15),
+        border: OutlineInputBorder(
+          // gapPadding: 10.0,
+          borderSide: const BorderSide(color: authTextColor, width: 0.0),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        labelText: labelName,
       ),
+      controller: controllerName,
+      validator: (value) {
+        if (value.isEmpty) {
+        inputSize = 100;
+          return "Your $labelName cannot be empty";
+        } else {
+          return null;
+        }
+      },
+      keyboardType: TextInputType.text,
+      style: TextStyle(color: Colors.white, fontSize: 15),
     ),
   );
 }
@@ -46,7 +45,7 @@ Widget btnButton(String textProvide) {
       alignment: Alignment.center,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: authTextColor.withAlpha(120),
+        color: authTextColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(textProvide,
@@ -86,7 +85,8 @@ Widget testKit(String testKitType, String url) {
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                   topRight: Radius.circular(20))),
-          child: Text("$testKitType", style:  TextStyle(color: authTextColor, fontSize: 15)),
+          child: Text("$testKitType",
+              style: TextStyle(color: authTextColor, fontSize: 15)),
         ),
         Container(
           height: 100,

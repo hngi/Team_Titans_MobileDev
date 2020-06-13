@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:recipe/pages/detail.dart';
 import 'package:recipe/utils/data.dart';
+import 'package:recipe/utils/local.dart';
 
-class ListGridView extends StatefulWidget {
+class LocalListGridView extends StatefulWidget {
   @override
-  _ListGridViewState createState() => _ListGridViewState();
+  _LocalListGridViewState createState() => _LocalListGridViewState();
 }
 
-class _ListGridViewState extends State<ListGridView> {
+class _LocalListGridViewState extends State<LocalListGridView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +18,8 @@ class _ListGridViewState extends State<ListGridView> {
           padding: const EdgeInsets.all(4.0),
           child: new StaggeredGridView.countBuilder(
             crossAxisCount: 4,
-            itemCount: Data.recipes.length,
+
+            itemCount: Local.localrecipes.length,
             itemBuilder: (BuildContext context, int index) => Padding(
               padding: const EdgeInsets.all(1.0),
               child: InkWell(
@@ -26,7 +28,7 @@ class _ListGridViewState extends State<ListGridView> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => DetailsPage(
-                                recipe: Data.recipes[index],
+                                localrecipe: Local.localrecipes[index],
                               )));
                 },
                 child: Expanded(
@@ -37,11 +39,11 @@ class _ListGridViewState extends State<ListGridView> {
                           height: 200,
                           width: 160,
                           decoration: BoxDecoration(
-                              color: Data.recipes[index].color,
+                              color: Local.localrecipes[index].color,
                               image: DecorationImage(
-                                  image: NetworkImage(
-                                      "${Data.recipes[index].imageUrl}"),
-                                  fit: BoxFit.fitHeight),
+                                  image: AssetImage(
+                                      "${Local.localrecipes[index].imageUrl}"),
+                                  fit: BoxFit.cover),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10))),
                         ),
@@ -51,7 +53,7 @@ class _ListGridViewState extends State<ListGridView> {
                               padding: const EdgeInsets.only(left: 10),
                               child: Container(
                                   alignment: Alignment.centerLeft,
-                                  child: Text("${Data.recipes[index].title}",
+                                  child: Text("${Local.localrecipes[index].title}",
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
@@ -59,17 +61,18 @@ class _ListGridViewState extends State<ListGridView> {
                             ),
                             Padding(
                               padding:
-                                  const EdgeInsets.only(top: 10.0, left: 10),
+                                  const EdgeInsets.only(top: 10.0, left: 10,bottom: 10),
                               child: Container(
                                   alignment: Alignment.topLeft,
                                   child: Text(
-                                      "${Data.recipes[index].time} Minutes",
+                                      "${Local.localrecipes[index].time} Minutes",
                                       style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ))),
                             ),
+                           
                           ],
                         ),
                       ],
@@ -79,8 +82,9 @@ class _ListGridViewState extends State<ListGridView> {
               ),
             ),
             staggeredTileBuilder: (int index) =>
-                new StaggeredTile.count(2, index.isEven ? 3 : 4),
+                new StaggeredTile.count(2, index.isEven ? 4 : 3),
             mainAxisSpacing: 1.0,
+
             crossAxisSpacing: 1.0,
           ),
         ),

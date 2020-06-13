@@ -44,8 +44,8 @@ class _CircleIndicatorState extends State<CircleIndicator>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(widget.nutrient.name,style: TextStyle(color: Colors.white),),
-                Text(widget.nutrient.weight,style: TextStyle(color: Colors.white),),
+                Text(widget.nutrient.name,style: TextStyle(color: Colors.black),),
+                Text(widget.nutrient.weight,style: TextStyle(color: Colors.black),),
               ],
             ),
           ),

@@ -1,14 +1,16 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import 'package:recipe/pages/profile_page.dart';
 import 'package:recipe/screens/home_page.dart';
+import 'package:recipe/screens/sigin_in.dart';
+import 'localGrid.dart';
 import 'searchbar.dart';
 import 'recipegridview.dart';
 
-
-
 class Home extends StatefulWidget {
-  final String  uid;
+  final String uid;
 
   const Home({Key key, this.uid}) : super(key: key);
   @override
@@ -16,15 +18,23 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Widget> tab = [
-    HomePage(),
-    SearchScreen(),
-    ListGridView()
-  ];
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  _signOut() async {
+    await _firebaseAuth.signOut();
+    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SignIn()));
+  }
 
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
+    List<dynamic> tab = [
+      HomePage(uid: widget.uid),
+      ListGridView(),
+      LocalListGridView(),
+      LocalListGridView(),
+    ];
+
     return Scaffold(
       body: SafeArea(
         child: tab[currentIndex],
@@ -36,6 +46,9 @@ class _HomeState extends State<Home> {
         curve: Curves.easeInBack,
         onItemSelected: (index) => setState(() {
           currentIndex = index;
+          if (currentIndex == 3) {
+            _signOut();
+          }
         }),
         items: [
           BottomNavyBarItem(
@@ -45,22 +58,22 @@ class _HomeState extends State<Home> {
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
-            icon: Icon(Icons.search),
-            title: Text('Search'),
+            icon: Icon(Icons.fastfood),
+            title: Text('Continental Recipes'),
             activeColor: Colors.purpleAccent,
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
             icon: Icon(Icons.fastfood),
             title: Text(
-              'Recipes ',
+              'Local Recipes ',
             ),
             activeColor: Colors.pink,
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
-            icon: Icon(Icons.settings),
-            title: Text('Settings'),
+            icon: Icon(Icons.offline_pin),
+            title: Text('Log out'),
             activeColor: Colors.blue,
             textAlign: TextAlign.center,
           ),

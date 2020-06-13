@@ -116,6 +116,43 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:720770253642:android:2c23041a1358465702b7b3",
+        "android_client_info": {
+          "package_name": "com.titans.recipe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "720770253642-auiovbehm3a5ruc2ifmamr239hcd4ef0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.titans.recipe",
+            "certificate_hash": "6d2ad3a7cee51db186f9a25f24880f44ff737a2f"
+          }
+        },
+        {
+          "client_id": "720770253642-rljdpneoscj17lerj6d2v0bek18j62cu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBd4E8_As2-S63ISoetvpoiNu77kJUODrY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "720770253642-rljdpneoscj17lerj6d2v0bek18j62cu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

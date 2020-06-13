@@ -4,7 +4,8 @@ import 'package:recipe/utils/widgets.dart';
 
 class DetailsPage extends StatelessWidget {
   final Recipe recipe;
-  DetailsPage({this.recipe});
+  final LocalRecipe localrecipe;
+  DetailsPage({this.recipe, this.localrecipe});
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +17,15 @@ class DetailsPage extends StatelessWidget {
               expandedHeight: 200.0,
               floating: false,
               pinned: true,
-              title: Text(recipe.title),
+              backgroundColor: Color(0xff8DB646),
+              title: Text(recipe == null ? localrecipe.title : recipe.title),
               flexibleSpace: FlexibleSpaceBar(
                 background: Hero(
-                  tag: recipe.id,
+                  tag: recipe == null ? localrecipe.id : recipe.id,
                   child: FadeInImage(
-                    image: NetworkImage(
-                        recipe.imageUrl),
+                    image: recipe == null
+                        ? AssetImage(localrecipe.imageUrl)
+                        : NetworkImage(recipe.imageUrl),
                     fit: BoxFit.cover,
                     placeholder: AssetImage('assets/images/loading.gif'),
                   ),
@@ -32,14 +35,7 @@ class DetailsPage extends StatelessWidget {
           ];
         },
         body: Container(
-         decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    colors: [
-                  const Color(0xff213A50),
-                  const Color(0xff071930)
-                ],
-                    begin: FractionalOffset.topRight,
-                    end: FractionalOffset.bottomLeft)),
+          decoration: BoxDecoration(color: Colors.white),
           padding: EdgeInsets.only(top: 8.0),
           child: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
@@ -47,27 +43,39 @@ class DetailsPage extends StatelessWidget {
               children: <Widget>[
                 Text('Nutrition',
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20)),
+                SizedBox(
+                  height: 10,
+                ),
                 NutritionWidget(
-                  nutrients: recipe.nutrients,
+                  nutrients:
+                      recipe == null ? localrecipe.nutrients : recipe.nutrients,
+                ),
+                SizedBox(
+                  height: 10,
                 ),
                 Text('Ingredients',
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20)),
                 IngredientsWidget(
-                  ingredients: recipe.ingredients,
+                  ingredients: recipe == null
+                      ? localrecipe.ingredients
+                      : recipe.ingredients,
+                ),
+                Divider(
+                  height: 10,
                 ),
                 Text('Steps',
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                         fontSize: 20)),
                 RecipeSteps(
-                  steps: recipe.steps,
+                  steps: recipe == null ? localrecipe.steps : recipe.steps,
                 )
               ],
             ),
@@ -95,7 +103,7 @@ class RecipeSteps extends StatelessWidget {
           child: Row(
             children: <Widget>[
               CircleAvatar(
-                backgroundColor: Theme.of(context).accentColor,
+                backgroundColor: Color(0xff8DB646),
                 child: Text('${index + 1}',
                     style: TextStyle(
                         color: Colors.black, fontWeight: FontWeight.bold)),
@@ -105,9 +113,9 @@ class RecipeSteps extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: Text(steps[index],
                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16)),
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontFamily: 'Source_Sans_Pro')),
                 ),
               )
             ],
@@ -124,26 +132,21 @@ class IngredientsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 50,
-      width: double.infinity,
-      child: ListView.builder(
-        itemCount: ingredients.length,
-        shrinkWrap: true,
-        scrollDirection: Axis.horizontal,
-        physics: BouncingScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Chip(
-              backgroundColor: Theme.of(context).accentColor,
-              label: Text(ingredients[index],
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold)),
-            ),
-          );
-        },
-      ),
+    return ListView.builder(
+      itemCount: ingredients.length,
+      shrinkWrap: true,
+      scrollDirection: Axis.vertical,
+      physics: ClampingScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(ingredients[index],
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'Source_Sans_Pro')),
+        );
+      },
     );
   }
 }
@@ -162,7 +165,10 @@ class NutritionWidget extends StatelessWidget {
         shrinkWrap: true,
         physics: BouncingScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
-          return CircleIndicator(percent: nutrients[index].percent,nutrient: nutrients[index],);
+          return CircleIndicator(
+            percent: nutrients[index].percent,
+            nutrient: nutrients[index],
+          );
         },
       ),
     );

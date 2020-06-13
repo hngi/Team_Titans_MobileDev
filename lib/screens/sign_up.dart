@@ -18,6 +18,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   bool isLoading = false;
   bool obscure = true;
+  double inputSize = 50;
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   DatabaseReference dbRef =
       FirebaseDatabase.instance.reference().child("Users");
@@ -34,55 +35,57 @@ class _SignUpState extends State<SignUp> {
       resizeToAvoidBottomInset: false,
       resizeToAvoidBottomPadding: false,
       body: Container(
+        height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
               color: authBackgroudColor,
               image: DecorationImage(
                   image: AssetImage('assets/images/welcome.png'),
                   fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                      authBackgroudColor, BlendMode.srcATop))),
+                  colorFilter:
+                      ColorFilter.mode(authBackgroudColor, BlendMode.srcATop))),
           child: SafeArea(
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 30),
-                Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    "Sign Up",
-                    style: TextStyle(
-                        color: authTextColor,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 43),
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 30),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(
+                          color: authTextColor,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 43),
+                    ),
                   ),
-                ),
-                SizedBox(height: 20),
-                Form(
-                  key: _formKey,
-                  child: Theme(
-                    data: ThemeData(
-                        primaryColor: authTextColor,
-                        primaryColorDark: authTextColor),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(padding: EdgeInsets.all(8.0)),
-                        btnDesign(_userName, "Username"),
-                        btnDesign(_userEmail, "Email"),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            height: 50,
+                  SizedBox(height: 20),
+                  Form(
+                    key: _formKey,
+                    child: Theme(
+                      data: ThemeData(
+                          primaryColor: authTextColor,
+                          primaryColorDark: authTextColor),
+                      child: Column(
+                        children: <Widget>[
+                          Padding(padding: EdgeInsets.all(8.0)),
+                          btnDesign(_userName, "Username"),
+                          btnDesign(_userEmail, "Email"),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
                             child: TextFormField(
                               obscureText: obscure,
-                               style: TextStyle(color: Colors.white, fontSize: 15),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
                               decoration: InputDecoration(
-                                
                                 suffixIcon: IconButton(
                                   icon: obscure == false
-                                      ? Icon(Icons.remove_red_eye,
-                                       )
-                                      : Icon(Icons.visibility_off,
-                                         ),
+                                      ? Icon(
+                                          Icons.remove_red_eye,
+                                        )
+                                      : Icon(
+                                          Icons.visibility_off,
+                                        ),
                                   onPressed: () {
                                     setState(() {
                                       if (obscure == true) {
@@ -104,37 +107,37 @@ class _SignUpState extends State<SignUp> {
                                   // gapPadding: 10.0,
                                   borderSide: const BorderSide(
                                       color: authTextColor, width: 0.0),
-                                  borderRadius:
-                                      BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                                 labelText: "Password",
                               ),
                               controller: _userPassword,
                               validator: (value) {
                                 if (value.isEmpty) {
+                                  setState(() {
+                                    inputSize = 100;
+                                  });
                                   return "Your Password cannot be empty";
                                 } else {
                                   return null;
                                 }
                               },
                               keyboardType: TextInputType.text,
-                              
                             ),
                           ),
-                        ),
-                            Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Container(
-                            height: 50,
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
                             child: TextFormField(
-                               style: TextStyle(color: Colors.white, fontSize: 15),
+                              obscureText: obscure,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 15),
                               decoration: InputDecoration(
                                 suffixIcon: IconButton(
                                   icon: obscure == false
                                       ? Icon(Icons.remove_red_eye,
-                                          color: Color(0xfffb176e))
+                                      )
                                       : Icon(Icons.visibility_off,
-                                          color: Color(0xfffb176e)),
+                                        ),
                                   onPressed: () {
                                     setState(() {
                                       if (obscure == true) {
@@ -156,8 +159,7 @@ class _SignUpState extends State<SignUp> {
                                   // gapPadding: 10.0,
                                   borderSide: const BorderSide(
                                       color: authTextColor, width: 0.0),
-                                  borderRadius:
-                                      BorderRadius.circular(8),
+                                  borderRadius: BorderRadius.circular(8),
                                 ),
                                 labelText: "Confirm Password",
                               ),
@@ -170,47 +172,44 @@ class _SignUpState extends State<SignUp> {
                                 }
                               },
                               keyboardType: TextInputType.text,
-                              
                             ),
                           ),
-                        ),
-                       
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 40),
-                InkWell(
-                    onTap: () {
-                      if (_formKey.currentState.validate()) {
-                        if (_userPassword.text ==
-                            _confirmUserPassword.text) {
-                          registerToFb();
+                  SizedBox(height: 40),
+                  InkWell(
+                      onTap: () {
+                        if (_formKey.currentState.validate()) {
+                          if (_userPassword.text == _confirmUserPassword.text) {
+                            registerToFb();
+                          }
                         }
-                      }
+                      },
+                      child: isLoading == true
+                          ? CircularProgressIndicator()
+                          : btnButton("Sign Up")),
+                  SizedBox(height: 10),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => SignIn()));
                     },
-                    child: isLoading == true ? CircularProgressIndicator() :btnButton("Sign Up")),
-                SizedBox(height: 10),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                SignIn()));
-                  },
-                  child: Text.rich(TextSpan(
-                      text: "Already have an account? ",
-                      style:
-                          TextStyle(color: Colors.white, fontSize: 15),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: " Log In",
-                            style: TextStyle(
-                                color: authTextColor, fontSize: 15))
-                      ])),
-                )
-              ],
+                    child: Text.rich(TextSpan(
+                        text: "Already have an account? ",
+                        style: TextStyle(color: Colors.white, fontSize: 15),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: "Log In",
+                              style:
+                                  TextStyle(color: authTextColor, fontSize: 15))
+                        ])),
+                  )
+                ],
+              ),
             ),
           )),
     );
@@ -223,18 +222,18 @@ class _SignUpState extends State<SignUp> {
     firebaseAuth
         .createUserWithEmailAndPassword(
             email: _userEmail.text, password: _userPassword.text)
-        .then((result) {
-      Firestore.instance.collection("users").document(result.user.uid).setData({
-        "uid": result.user.uid,
+        .then((authResult) {
+      Firestore.instance.collection("users").document(authResult.user.uid).setData({
+        "uid": authResult.user.uid,
         "email": _userEmail.text,
-        "name": _userName
-      }).then((res) {
+        "name": _userName.text
+      }).then((result) {
         setState(() {
           isLoading = false;
         });
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Home(uid: result.user.uid)),
+          MaterialPageRoute(builder: (context) => Home(uid: authResult.user.uid)),
         );
       });
     }).catchError((err) {

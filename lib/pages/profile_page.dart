@@ -2,14 +2,14 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
+class Profile extends StatefulWidget {
   
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _ProfileState createState() => _ProfileState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _ProfileState extends State<Profile> {
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -67,36 +67,6 @@ class _HomePageState extends State<HomePage> {
         ],)
       ),
       
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _currentIndex,
-             items: [
-               BottomNavigationBarItem(
-                 icon: Icon(Icons.home, color: Colors.grey[400],),
-                 title: Text('Home'),
-                 backgroundColor: Colors.white
-               ),
-               BottomNavigationBarItem(
-                 icon: Icon(Icons.search, color: Colors.grey[400],),
-                 title: Text('Home'),
-                 backgroundColor: Colors.white
-               ),
-               BottomNavigationBarItem(
-                 icon: Icon(Icons.bookmark, color: Colors.grey[400],),
-                 title: Text('Home'),
-                 backgroundColor: Colors.white
-               ),
-               BottomNavigationBarItem(
-                 icon: Icon(Icons.person, color: Colors.grey[400],),
-                 title: Text('Home'),
-                 backgroundColor: Colors.white
-               ),
-             ],
-          onTap: (index){
-               setState(() {
-                 _currentIndex = index;
-               });
-             },
-           ),
     );
   }
 }
